@@ -27,7 +27,7 @@ EXPOSE 8080
 # The --host 0.0.0.0 makes the app accessible from outside the container.
 # The --port $PORT allows Cloud Run to inject the port it wants the container to listen on.
 # If $PORT is not set, it defaults to 8000.
-CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "main:app", "--bind", "0.0.0.0:${PORT:-8000}"]
+CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "main:app", "--bind", "0.0.0.0:${PORT:-8080}"]
 
 # Alternatively, for simpler local testing or if you prefer uvicorn directly:
 # CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
