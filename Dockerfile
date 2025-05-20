@@ -19,7 +19,7 @@ COPY . .
 
 # 6. Expose the port the app runs on
 # This should match the port Uvicorn/Gunicorn is configured to use.
-EXPOSE 8000
+EXPOSE 8080
 
 # 7. Define the command to run the application
 # For Cloud Run, it's common to use Gunicorn as the ASGI server.

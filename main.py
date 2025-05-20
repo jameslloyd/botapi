@@ -65,4 +65,4 @@ async def check_word(word: str = Query(..., description="Word to check in Scrabb
 # For Cloud Run, this part is not strictly necessary as Gunicorn (or a similar ASGI server)
 # will be specified in the Procfile or as the CMD/ENTRYPOINT in the Dockerfile.
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8080)
