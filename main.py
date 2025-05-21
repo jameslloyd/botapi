@@ -1,13 +1,17 @@
 # main.py
 from fastapi import FastAPI, Query
 from functools import lru_cache
+from scrabble_layout import create_scrabble_layout
+from scrabble_board import generate_scrabble_board_image
+from fastapi.responses import FileResponse
+from typing import List
 
 import os
 import uvicorn
 
 app = FastAPI(
-    title="My FastAPI Application",
-    description="A simple boilerplate FastAPI application.",
+    title="SentimentBot API",
+    description="supporting api for sentimentbot",
     version="0.1.0",
 )
 
@@ -45,8 +49,6 @@ async def read_root():
     """
     return {"message": "Hello World! This is a FastAPI app."}
 
-
-
 @app.get("/check_word")
 async def check_word(word: str = Query(..., description="Word to check in Scrabble dictionary")):
     """
@@ -61,6 +63,34 @@ async def check_word(word: str = Query(..., description="Word to check in Scrabb
         "score": score
     }
 
+@app.get("/scrabble_layout")
+async def get_scrabble_layout(words: List[str] = Query([], description="List of words to include in the layout")):
+    """
+    Endpoint to generate and return a Scrabble board layout.
+    Accepts a list of words as a query parameter.
+    """
+    # Generate the Scrabble layout with the provided words
+    scrabble_layout = create_scrabble_layout(words)
+    
+    # Return the layout as a JSON response
+    return {
+        "layout": scrabble_layout
+    }
+
+@app.get("/scrabble_board_image")
+async def get_scrabble_board_image(
+    words: List[str] = Query([], description="List of words to include on the board")
+):
+    """
+    Endpoint to generate a Scrabble board image with the given words.
+    Returns the image file.
+    """
+    # Generate the Scrabble layout
+    scrabble_layout = create_scrabble_layout(words)
+    # Generate the board image file path
+    image_path = generate_scrabble_board_image(scrabble_layout)
+    # Return the image as a file response
+    return FileResponse(image_path, media_type="image/png", filename="scrabble_board.png")
 
 # It's good practice to only run the server when the script is executed directly.
 # For Cloud Run, this part is not strictly necessary as Gunicorn (or a similar ASGI server)
