@@ -19,7 +19,7 @@ COPY . .
 
 # 6. Expose the port the app runs on
 # This should match the port Uvicorn/Gunicorn is configured to use.
-EXPOSE $PORT
+EXPOSE 8080
 
 # 7. Define the command to run the application
 # For Cloud Run, it's common to use Gunicorn as the ASGI server.
@@ -27,7 +27,7 @@ EXPOSE $PORT
 # The --host 0.0.0.0 makes the app accessible from outside the container.
 # The --port $PORT allows Cloud Run to inject the port it wants the container to listen on.
 # If $PORT is not set, it defaults to 8000.
-CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "main:app", "--bind", "0.0.0.0:${PORT}"]
+CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "main:app", "--bind", "0.0.0.0:8080"]
 
 # Alternatively, for simpler local testing or if you prefer uvicorn directly:
 # CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
